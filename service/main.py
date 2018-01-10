@@ -10,11 +10,12 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 import sys
-
+import config
 import tornado.web
 import tornado.ioloop
 import tornado.httpserver
 from tornado import options
+from core.context import TornadoContext
 from utils import log as logger
 
 
@@ -22,21 +23,28 @@ class Application(tornado.web.Application):
     """ app 入口
     """
 
-    def __init__(self):
-        """ 初始化
-        """
-        from core.context import Context
-        Context.init_uri_routes()
+    def __init__(self, handlers):
+        """ 初始化"""
         settings = {
             'debug': True,
-            'cookie_secret': 'fd49713d91e0e863a88740432af6644b'
+            'cookie_secret': 'fd49713d91e0e863a88740432af6644b123'
         }
-        tornado.web.Application.__init__(self, Context.handlers, **settings)
+        tornado.web.Application.__init__(self, handlers, **settings)
         logger.info('init app done.', caller=self)
 
 
 def main(http_port):
-    http_server = tornado.httpserver.HTTPServer(Application())
+    configs = {
+        'run_mode': config.RUN_MODE,
+        'log_level': config.LOG_CONFIG.get('level'),
+        'log_path': config.LOG_CONFIG.get('path'),
+        'log_name': config.LOG_CONFIG.get('filename'),
+        'mysql_config': config.MYSQL_CONFIG,
+        'handler_pathes': ['api'],
+        'http_port': http_port,
+    }
+    t_context = TornadoContext(**configs)
+    http_server = tornado.httpserver.HTTPServer(Application(t_context.handlers))
     http_server.listen(http_port)
     logger.info('listen http port at:', http_port)
 

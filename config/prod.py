@@ -1,7 +1,7 @@
 # coding: utf-8
 from config.common import *
 
-RUN_MODE = 'online'
+RUN_MODE = 'console'
 
 MYSQL_CONFIG = {
     'host': '47.92.115.126',
