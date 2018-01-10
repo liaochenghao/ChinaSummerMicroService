@@ -1,8 +1,8 @@
 # coding: utf-8
 
-# from simpleroute import route
+from simpleroute import route
 from core.routes import route
-from utils import log as logger
+# from utils import log as logger
 from core.webbase import WebHandler
 
 
