@@ -6,9 +6,8 @@ from utils import log as logger
 from core.webbase import WebHandler
 
 
-# @route(r'/api/stu_system/auth/authorize/$')
-@route(r'/api/cp/$')
-class StuSystemAuthorize(WebHandler):
+@route(r'/api/stu_system/auth/authorize/$')
+class StuSystemAuthorizeHandler(WebHandler):
     """学生系统验证"""
 
     def get(self, *args, **kwargs):

@@ -14,7 +14,6 @@ import config
 import tornado.web
 import tornado.ioloop
 import tornado.httpserver
-from tornado import options
 from core.context import TornadoContext
 from utils import log as logger
 
@@ -45,6 +44,10 @@ def main(http_port):
     }
     t_context = TornadoContext(**configs)
     http_server = tornado.httpserver.HTTPServer(Application(t_context.handlers))
+    # application = tornado.web.Application([
+    #     (r'/api/stu_system/auth/authorize/', StuSystemAuthorizeHandler),
+    # ])
+    # http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(http_port)
     logger.info('listen http port at:', http_port)
 
