@@ -25,27 +25,27 @@ class Application(tornado.web.Application):
     def __init__(self):
         """ 初始化
         """
-        from core.context import KLCContext
-        KLCContext.init_uri_routes()
+        from core.context import Context
+        Context.init_uri_routes()
         settings = {
             'debug': True,
             'cookie_secret': 'fd49713d91e0e863a88740432af6644b'
         }
-        tornado.web.Application.__init__(self, KLCContext.handlers, **settings)
+        tornado.web.Application.__init__(self, Context.handlers, **settings)
         logger.info('init app done.', caller=self)
 
 
 def main(http_port):
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.port)
-    logger.info('listen http port at:', options.port)
+    http_server.listen(http_port)
+    logger.info('listen http port at:', http_port)
 
     logger.info('start io loop ...')
     tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == '__main__':
-    port = 7002
+    port = 7070
     if len(sys.argv) > 1:
         port = sys.argv[1]
     main(port)

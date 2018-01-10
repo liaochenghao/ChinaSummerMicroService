@@ -9,6 +9,7 @@ import datetime
 from core import error
 import json
 
+
 class WebHandler(RequestHandler):
     """ web基类
     """

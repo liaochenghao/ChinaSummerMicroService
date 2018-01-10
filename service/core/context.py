@@ -6,6 +6,8 @@
 import os
 
 from tornado.options import options
+
+# tornado
 from simpleroute import make_routes
 
 import config
@@ -29,7 +31,7 @@ class MicroContext(object):
         if config.RUN_MODE == 'console':
             logger.initLogger()
         else:
-            logfile = '%s_%s.log' % (config.LOG_CONFIG['filename'].split('.')[0], options.port)
+            logfile = '%s_%s.log' % (config.LOG_CONFIG['filename'].split('.')[0], 7070)
             logger.initLogger(config.LOG_CONFIG['level'], config.LOG_CONFIG['path'], logfile)
         options.parse_command_line()
 
@@ -40,7 +42,7 @@ class MicroContext(object):
         """ 初始化uri路由
         """
         logger.info('init uri routes start >>>', caller=self)
-        handlers = make_routes(['api'])
+        handlers = make_routes(['apis'])
         for item in handlers:
             logger.info('uri:', item[0], 'handler:', item[1], caller=self)
         self.handlers = handlers
