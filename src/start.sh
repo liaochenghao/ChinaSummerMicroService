@@ -4,8 +4,8 @@
 # Brief:    server process manage
 SHELL_FOLDER=$(cd `dirname ${0}`; pwd)
 PROCESS=main.py
-PYTHON='/Users/qiulei/virtualenv_py36/bin/python'
-# PYTHON='python3'
+#PYTHON='/Users/qiulei/virtualenv_py36/bin/python'
+PYTHON='python3'
 
 PORTS=(7071 7072 7073 7074)
 
