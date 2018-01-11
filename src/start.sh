@@ -7,7 +7,7 @@ PROCESS=main.py
 PYTHON='/Users/qiulei/virtualenv_py36/bin/python'
 # PYTHON='python3'
 
-PORTS=(7071 7072 7073 7074 7075 7076 7077 7078 7079)
+PORTS=(7071 7072 7073 7074)
 
 function help()
 {
