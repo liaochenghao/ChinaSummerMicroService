@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from core.routes import route
-# from utils import log as logger
 from core.webbase import WebHandler
 from api.common.validators import TicketAuthorizeValidator, UserAuthorizeValidator
 from service.stu_system.functions import StuSystemAuthorize

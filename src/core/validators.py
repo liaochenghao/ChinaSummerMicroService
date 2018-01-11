@@ -78,4 +78,26 @@ def dict_field(data, field=None, required=True):
     return field_data
 
 
-__all__ = [int_field, char_field, float_field, date_field, datetime_field, list_field, dict_field, bool_field]
+class BaseValidator:
+    field_map = (
+        ('int', int_field),
+        ('char', char_field),
+        ('float', float_field),
+        ('date', date_field),
+        ('datetime', datetime_field),
+        ('list', list_field),
+        ('dict', dict_field),
+        ('bool', bool_field)
+    )
+
+    def __init__(self, validate_data, server_type='stu_system'):
+        self.validate_data = validate_data
+        self.server_type = server_type
+
+    def validate(self):
+        pass
+
+    def validate_func(self, field_type, field_name, validate_data):
+
+        valid_func = dict(self.field_map).get(field_type)
+        return valid_func(data=validate_data, field=field_name)
