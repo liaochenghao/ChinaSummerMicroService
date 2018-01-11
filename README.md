@@ -30,6 +30,9 @@
 
 
 #### 2.留声小程序接口
+- [验证ticket有效性](docs/ugc_system/ticket_authorize.md)
+- [根据用户创建ticket](docs/ugc_system/create_ticket.md)
+- [删除ticket](docs/ugc_system/delete_ticket.md)
 
 
 #### 3.服务中心微信公众号接口

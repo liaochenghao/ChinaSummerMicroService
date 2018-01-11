@@ -2,7 +2,7 @@
 
 **请求地址**:
 ```
-    GET     /api/stu_system/auth/authorize/?server_type=stu_system
+    GET     /api/stu_system/auth/authorize/?server_type=ugc_system
 ```
 
 **请求参数**:
