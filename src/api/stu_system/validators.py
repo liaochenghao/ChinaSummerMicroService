@@ -14,11 +14,10 @@ class BaseValidator:
         ('bool', bool_field)
     )
 
-    @property
-    def validate_func(self, field_type):
+    def validate_func(self, field_type, field_name, validate_data):
 
         valid_func = dict(self.field_map).get(field_type)
-        return valid_func
+        return valid_func(data=validate_data, field=field_name)
 
 
 class AuthorizeValidator(BaseValidator):
@@ -27,5 +26,5 @@ class AuthorizeValidator(BaseValidator):
         self.validate_data = validate_data
 
     def validate(self):
-        self.validate_func('int')(data=self.validate_data, field='ticket')
+        self.validate_func('char', 'ticket', self.validate_data)
         return self.validate_data

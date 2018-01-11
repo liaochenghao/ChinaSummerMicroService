@@ -2,12 +2,14 @@
 
 from tornado_mysql import pools, cursors
 from utils import log as logger
+from config import MYSQL_CONFIG
 
 pools.DEBUG = True
 CONN_POOL = None
 
 
-def initMySQL(host='127.0.0.1', port=3306, user='root', password='', db='mysql'):
+def initMySQL(host='127.0.0.1', port=3306, user='root', password='', db='mysql', cursorclass=cursors.DictCursor,
+              charset='utf-8'):
     """ 初始化mysql连接池
     """
     mysql_config = {
@@ -16,8 +18,8 @@ def initMySQL(host='127.0.0.1', port=3306, user='root', password='', db='mysql')
         'user': user,
         'passwd': password,
         'db': db,
-        'cursorclass': cursors.DictCursor,
-        'charset': 'utf8'
+        'cursorclass': cursorclass,
+        'charset': charset
     }
     logger.info('mysql_config:', mysql_config)
     global CONN_POOL
@@ -27,15 +29,29 @@ def initMySQL(host='127.0.0.1', port=3306, user='root', password='', db='mysql')
     logger.info('create mysql connection pool.')
 
 
-async def exec_cmd(sql):
+def exec_cmd(sql):
     """ 执行mysql命令
     @param sql sql命令
     """
     sql = sql.replace('\t', ' ').replace('\n', ' ')
     logger.debug('sql:', sql)
-    cursor = await CONN_POOL.execute(sql)
+    cursor = CONN_POOL.execute(sql)
     result = cursor.fetchall()
     return result
 
 
-__all__ = [initMySQL, exec_cmd]
+def my_custom_sql(query, is_query=True):
+    import pymysql
+    conn = pymysql.connect(**MYSQL_CONFIG)
+    data = {}
+    with conn.cursor() as cursor:
+        cursor.execute(query)
+        if is_query:
+            data = cursor.fetchall()
+        else:
+            conn.commit()
+    conn.close()
+    return data
+
+
+__all__ = [initMySQL, exec_cmd, my_custom_sql]
