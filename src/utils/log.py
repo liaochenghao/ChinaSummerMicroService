@@ -84,21 +84,21 @@ def _log(func_name, *args, **kwargs):
     return _log_msg
 
 
-def _log_func_name(*args, **wkargs):
+def _log_func_name(*args, **kwargs):
     """ 获取方法名
     * logger.xxx(... caller=self) for instance method
     * logger.xxx(... caller=cls) for @classmethod
     """
     caller_cls_name = ""
     try:
-        _caller = wkargs.get('caller', None)
+        _caller = kwargs.get('caller', None)
         if _caller:
             if not hasattr(_caller, '__name__'):
                 _caller = _caller.__class__
             caller_cls_name = _caller.__name__
-            del wkargs['caller']
+            del kwargs['caller']
     except:
         pass
 
     func_name_str = '[' + caller_cls_name + '.' + sys._getframe().f_back.f_back.f_code.co_name + '] '
-    return func_name_str, wkargs
+    return func_name_str, kwargs

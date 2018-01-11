@@ -52,3 +52,11 @@ class SessionError(Exception):
         super(SessionError, self).__init__()
         self.http_code = http_code
         self.err_msg = err_msg
+
+
+class ValidationError(CustomError):
+    """ 参数验证错误
+    """
+
+    def __init__(self, err_msg='参数验证错误', err_code=400):
+        super(ValidationError, self).__init__(err_msg, err_code)
