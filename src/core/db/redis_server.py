@@ -12,7 +12,7 @@ class RedisClient:
         client = redis.Redis(host=REDIS_CONFIG['host'], port=REDIS_CONFIG['port'])
         return client
 
-    def get_instance(self, key, delete_cache=True):
+    def get_instance(self, key, delete_cache=False):
         redis_instance = self.redis_client.get(key)
         if not redis_instance:
             return None
@@ -20,7 +20,7 @@ class RedisClient:
             res = eval(redis_instance)
         except:
             res = str(redis_instance, encoding='utf-8')
-        if delete_cache:            # 默认获取redis数据之后立即删除数据
+        if delete_cache:
             self.redis_client.delete(key)
         return res
 

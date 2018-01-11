@@ -18,3 +18,9 @@ class StuSystemAuthorizeHandler(WebHandler):
         ticket = validated_data['ticket']
         res = StuSystemAuthorize.validate_ticket(ticket)
         self.do_success(res)
+
+    def post(self, *args, **kwargs):
+        data = self.data
+        res = StuSystemAuthorize.create_ticket(data['user_id'])
+        self.do_success(res)
+
