@@ -1,5 +1,4 @@
 # coding: utf-8
-
 from core.routes import route
 from core.webbase import WebHandler
 from api.common.validators import TicketAuthorizeValidator, UserAuthorizeValidator

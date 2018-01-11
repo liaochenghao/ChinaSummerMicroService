@@ -1,3 +1,4 @@
+# coding: utf-8
 from core.routes import route
 from core.webbase import WebHandler
 from service.wexin.client import wx_client
