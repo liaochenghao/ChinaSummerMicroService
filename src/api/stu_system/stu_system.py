@@ -24,3 +24,11 @@ class StuSystemAuthorizeHandler(WebHandler):
         res = StuSystemAuthorize.create_ticket(data['user_id'])
         self.do_success(res)
 
+    def delete(self, *args, **kwargs):
+        ticket = self.get_param('ticket')
+        validator = AuthorizeValidator({'ticket': ticket})
+        validated_data = validator.validate()
+        ticket = validated_data['ticket']
+        StuSystemAuthorize.delete_ticket(ticket)
+        self.do_success()
+

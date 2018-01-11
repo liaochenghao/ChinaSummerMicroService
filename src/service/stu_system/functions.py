@@ -49,3 +49,11 @@ class StuSystemAuthorize:
         """ % (user_id, str(now), str(expired_time), ticket)
         my_custom_sql(sql)
         return {'ticket': ticket}
+
+    @staticmethod
+    def delete_ticket(ticket):
+        sql = """
+            delete from ticket where ticket="%s"    
+        """ % ticket
+        my_custom_sql(sql, is_query=False)
+        return
