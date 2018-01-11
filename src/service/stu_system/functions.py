@@ -47,7 +47,7 @@ class StuSystemAuthorize:
         sql = """
             insert into ticket (user_id, create_time, expired_time, ticket) values(%d, "%s", "%s", "%s")        
         """ % (user_id, str(now), str(expired_time), ticket)
-        my_custom_sql(sql)
+        my_custom_sql(sql, is_query=False)
         return {'ticket': ticket}
 
     @staticmethod
