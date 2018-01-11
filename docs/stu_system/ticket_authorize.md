@@ -8,6 +8,7 @@
 **请求参数**:
 ```
 {
+    "server_type": "stu_system"  选填
     "ticket": str   必填
 }
 ```

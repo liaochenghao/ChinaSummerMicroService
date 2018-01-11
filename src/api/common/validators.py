@@ -14,8 +14,9 @@ class BaseValidator:
         ('bool', bool_field)
     )
 
-    def __init__(self, validate_data):
+    def __init__(self, validate_data, server_type='stu_system'):
         self.validate_data = validate_data
+        self.server_type = server_type
 
     def validate(self):
         pass

@@ -26,6 +26,7 @@
 #### 1.学生系统接口
 - [验证ticket有效性](docs/stu_system/ticket_authorize.md)
 - [根据用户创建ticket](docs/stu_system/create_ticket.md)
+- [删除ticket](docs/stu_system/delete_ticket.md)
 
 
 #### 2.留声小程序接口

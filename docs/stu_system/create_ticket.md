@@ -2,7 +2,7 @@
 
 **请求地址**:
 ```
-    POST     /api/stu_system/auth/authorize/
+    POST     /api/common/auth/authorize/?server_type=stu_system
 ```
 
 **请求参数**:

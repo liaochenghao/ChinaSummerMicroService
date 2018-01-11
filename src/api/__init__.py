@@ -1,1 +1,1 @@
-from api.stu_system import stu_system
+from api.common import common_authorize
