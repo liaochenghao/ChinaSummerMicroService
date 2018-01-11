@@ -14,17 +14,26 @@ class BaseValidator:
         ('bool', bool_field)
     )
 
+    def __init__(self, validate_data):
+        self.validate_data = validate_data
+
+    def validate(self):
+        pass
+
     def validate_func(self, field_type, field_name, validate_data):
 
         valid_func = dict(self.field_map).get(field_type)
         return valid_func(data=validate_data, field=field_name)
 
 
-class AuthorizeValidator(BaseValidator):
-
-    def __init__(self, validate_data):
-        self.validate_data = validate_data
+class TicketAuthorizeValidator(BaseValidator):
 
     def validate(self):
         self.validate_func('char', 'ticket', self.validate_data)
+        return self.validate_data
+
+
+class UserAuthorizeValidator(BaseValidator):
+    def validate(self):
+        self.validate_func('int', 'user_id', self.validate_data)
         return self.validate_data
