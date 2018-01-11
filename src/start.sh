@@ -1,7 +1,9 @@
 #! /bin/bash
-# Author:   qiulei
-# Date:     2017/12/22
-# Brief:    server process manage
+"""
+author: qiulei
+email: 896275756@qq.com
+date: 2018-01-10
+"""
 SHELL_FOLDER=$(cd `dirname ${0}`; pwd)
 PROCESS=main.py
 #PYTHON='/Users/qiulei/virtualenv_py36/bin/python'

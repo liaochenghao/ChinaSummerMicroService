@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-auth: qiulei
+author: qiulei
 email: 896275756@qq.com
 date: 2018-01-10
 """
