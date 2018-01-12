@@ -1,5 +1,4 @@
 # coding: utf-8
-import json
 import requests
 from config import WX_CONFIG
 
@@ -31,7 +30,6 @@ class WeiXinClient:
         cached_access_token = redis_client.get_instance('server_center_access_token')
         if not cached_access_token:
             cached_access_token = self.get_grant_token()
-        print(cached_access_token)
         return cached_access_token
 
     def get_grant_token(self):
@@ -115,6 +113,46 @@ class WeiXinClient:
         """
         url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
         res = self.get(url, params={})
+        return res
+
+    def get_temporary_qr_code(self, action_name, scene_id, expired_seconds=7*24*60*60, access_token=None):
+        """获取临时二维码"""
+        if not access_token:
+            access_token = self.get_valid_access_token
+
+        if action_name == 'QR_SCENE':
+            scene_data = {'scene_id': scene_id}
+        else:
+            scene_data = {'scene_str': scene_id}
+        url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s" % access_token
+        json_data = {
+            "expire_seconds": expired_seconds,
+            "action_name": action_name,
+            "action_info": {
+                "scene": scene_data
+            }
+        }
+        res = self.post(url=url, json_data=json_data)
+        res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
+        return res
+
+    def get_forever_qr_code(self, action_name, scene_id, access_token):
+        """获取永久二维码"""
+        if not access_token:
+            access_token = self.get_valid_access_token
+        if action_name == 'QR_LIMIT_SCENE':
+            scene_data = {'scene_id': scene_id}
+        else:
+            scene_data = {'scene_str': scene_id}
+        url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s" % access_token
+        json_data = {
+            "action_name": action_name,
+            "action_info": {
+                "scene": scene_data
+            }
+        }
+        res = self.post(url=url, json_data=json_data)
+        res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
 

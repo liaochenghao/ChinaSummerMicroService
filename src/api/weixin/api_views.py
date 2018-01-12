@@ -2,7 +2,8 @@
 from core.routes import route
 from core.webbase import WebHandler
 from service.wexin.client import wx_client
-from api.weixin.validators import TextMessageValidator, TemplateMessageValidator, UserInfoValidator
+from api.weixin.validators import TextMessageValidator, TemplateMessageValidator, UserInfoValidator, \
+    TemporaryQrCodeValidator, ForeverQrCodeValidator
 
 
 @route(r'/api/weixin/service_center/access_token/$')
@@ -71,4 +72,38 @@ class WeiXinServerUserInfo(WebHandler):
         validator.validate()
 
         res = wx_client.get_web_user_info(openid=openid, access_token=access_token)
+        self.do_success(res)
+
+
+@route(r'/api/weixin/service_center/temporary_qr_code/$')
+class WeiXinServerTemporaryQrCode(WebHandler):
+    """获取临时二维码"""
+    def post(self, *args, **kwargs):
+        action_name = self.data.get('action_name')
+        scene_id = self.data.get('scene_id')
+        expired_seconds = self.get_param('expired_seconds', 7*24*60*60)
+        access_token = self.data.get('access_token')
+
+        validator = TemporaryQrCodeValidator({'action_name': action_name, 'expired_seconds': expired_seconds})
+        validator.validate()
+        res = wx_client.get_temporary_qr_code(action_name=action_name,
+                                              scene_id=scene_id,
+                                              expired_seconds=expired_seconds,
+                                              access_token=access_token)
+        self.do_success(res)
+
+
+@route(r'/api/weixin/service_center/forever_qr_code/$')
+class WeiXinServerForeverQrCode(WebHandler):
+    """获取永久二维码"""
+    def post(self, *args, **kwargs):
+        action_name = self.data.get('action_name')
+        scene_id = self.data.get('scene_id')
+        access_token = self.data.get('access_token')
+
+        validator = ForeverQrCodeValidator({'action_name': action_name})
+        validator.validate()
+        res = wx_client.get_forever_qr_code(action_name=action_name,
+                                            scene_id=scene_id,
+                                            access_token=access_token)
         self.do_success(res)
