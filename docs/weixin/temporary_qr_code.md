@@ -8,7 +8,7 @@
 **请求参数**:
 ```
 {
-	"expiredd_time": int  必填  二维码有效时间, 默认为7*24*60*60秒
+	"expired_time": int  必填  二维码有效时间, 默认为7*24*60*60秒
 	"action_name":   str  必填  二维码类型  QR_SCENE或QR_STR_SCENE
 	"scene_id":      int或str  必填 场景值  当为QR_SCENE为int，否则为str
 	"access_token":  str  非必填
