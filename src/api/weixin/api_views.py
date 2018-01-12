@@ -62,7 +62,7 @@ class WeiXinServerCodeAuthorize(WebHandler):
 
 
 @route(r'/api/weixin/service_center/get_web_user_info/$')
-class WeiXinServerUserInfo(WebHandler):
+class WeiXinServerWebUserInfo(WebHandler):
     """获取网页认证用户信息"""
     def get(self, *args, **kwargs):
         openid = self.get_param('openid')
@@ -72,6 +72,20 @@ class WeiXinServerUserInfo(WebHandler):
         validator.validate()
 
         res = wx_client.get_web_user_info(openid=openid, access_token=access_token)
+        self.do_success(res)
+
+
+@route(r'/api/weixin/service_center/get_user_info/$')
+class WeiXinServerUserInfo(WebHandler):
+    """获取基础认证用户信息"""
+    def get(self, *args, **kwargs):
+        openid = self.get_param('openid')
+        access_token = self.get_param('access_token')
+
+        validator = UserInfoValidator({'openid': openid, 'access_token': access_token})
+        validator.validate()
+
+        res = wx_client.get_user_info(openid=openid, access_token=access_token)
         self.do_success(res)
 
 

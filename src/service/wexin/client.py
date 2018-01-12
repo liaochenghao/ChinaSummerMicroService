@@ -13,16 +13,10 @@ class WeiXinClient:
 
     def get(self, url, params):
         res = requests.get(url, params).json()
-        if res.get('errcode', 0) != 0:
-            redis_client.delete('server_center_access_token')
-            res = requests.get(url, params).json()
         return res
 
     def post(self, url, json_data):
         res = requests.post(url, json=json_data).json()
-        if res.get('errcode', 0) != 0:
-            redis_client.delete('server_center_access_token')
-            res = requests.post(url, json=json_data).json()
         return res
 
     @property
@@ -107,10 +101,12 @@ class WeiXinClient:
         res = self.get(url, params={})
         return res
 
-    def get_web_user_info(self, openid, access_token):
+    def get_web_user_info(self, openid, access_token=None):
         """
         通过openid获取网页授权的用户信息
         """
+        if not access_token:
+            access_token = self.get_valid_access_token
         url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
         res = self.get(url, params={})
         return res

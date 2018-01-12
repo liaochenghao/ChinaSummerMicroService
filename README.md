@@ -40,6 +40,7 @@
 - [发送文本消息](docs/weixin/send_text_message.md)
 - [发送模板消息](docs/weixin/send_template_message.md)
 - [code网页认证](docs/weixin/code_authorize.md)
-- [获取用户信息](docs/weixin/get_web_user_info.md)
+- [获取网页认证用户信息](docs/weixin/get_web_user_info.md)
+- [获取基础用户信息](docs/weixin/get_user_info.md)
 - [生成临时二维码](docs/weixin/temporary_qr_code.md)
 - [生成永久二维码](docs/weixin/forever_qr_code.md)
