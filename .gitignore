@@ -1,5 +1,5 @@
 .idea/
 *.pyc
 logs/
-config/prod.py
+src/config/prod.py
 *.DS_Store
