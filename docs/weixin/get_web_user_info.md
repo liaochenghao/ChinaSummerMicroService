@@ -1,8 +1,8 @@
-###  获取用户信息
+###  获取网页授权的用户信息
 
 **请求地址**:
 ```
-    GET     /api/weixin/service_center/user_info/
+    GET     /api/weixin/service_center/get_web_user_info/
 ```
 
 **请求参数**:

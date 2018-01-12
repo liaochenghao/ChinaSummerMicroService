@@ -87,25 +87,33 @@ class WeiXinClient:
         res = self.post(url=base_url, json_data=post_data)
         return res
 
-    def get_web_user_info(self, openid, access_token=None):
-        """
-        通过openid获取网页授权的用户信息
-        :param openid:
-        :return: {
-            "openid":" OPENID",
-            "nickname": NICKNAME,
-            "sex":"1",                                   用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-            "province":"PROVINCE"
-            "city":"CITY",
-            "country":"COUNTRY",
-            "headimgurl": "",
-            "privilege":["PRIVILEGE1" "PRIVILEGE2"],     用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
-            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"   只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
+    def code_authorize(self, code):
+        """用code获取认证"""
+        url = 'https://api.weixin.qq.com/sns/oauth2/access_token/'
+        params = {
+            'appid': self.APP_ID,
+            'secret': self.APP_SECRET,
+            'code': code,
+            'grant_type': 'authorization_code'
         }
+        res = self.get(url, params)
+        return res
+
+    def get_user_info(self, openid, access_token=None):
+        """
+        通过openid获取基础用户信息
         """
         if not access_token:
             access_token = self.get_valid_access_token
         url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
+        res = self.get(url, params={})
+        return res
+
+    def get_web_user_info(self, openid, access_token):
+        """
+        通过openid获取网页授权的用户信息
+        """
+        url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
         res = self.get(url, params={})
         return res
 
