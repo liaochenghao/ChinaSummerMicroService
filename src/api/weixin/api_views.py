@@ -2,7 +2,7 @@
 from core.routes import route
 from core.webbase import WebHandler
 from service.wexin.client import wx_client
-from api.weixin.validators import TextMessageValidator, TemplateMessageValidator
+from api.weixin.validators import TextMessageValidator, TemplateMessageValidator, UserInfoValidator
 
 
 @route(r'/api/weixin/service_center/access_token/$')
@@ -48,4 +48,18 @@ class WeiXinServerTemplateMessage(WebHandler):
         validator.validate()
         res = wx_client.template_send(template_id=template_id, openid=openid, url=url, access_token=access_token,
                                       **send_data)
+        self.do_success(res)
+
+
+@route(r'/api/weixin/service_center/user_info/$')
+class WeiXinServerUserInfo(WebHandler):
+    """获取网页认证用户信息"""
+    def get(self, *args, **kwargs):
+        openid = self.get_param('openid')
+        access_token = self.get_param('access_token')
+
+        validator = UserInfoValidator({'openid': openid})
+        validator.validate()
+
+        res = wx_client.get_web_user_info(openid=openid, access_token=access_token)
         self.do_success(res)

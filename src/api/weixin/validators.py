@@ -16,3 +16,8 @@ class TemplateMessageValidator(BaseValidator):
         self.validate_func('char', 'openid', self.validate_data)
         self.validate_func('char', 'template_id', self.validate_data)
         self.validate_func('dict', 'send_data', self.validate_data)
+
+
+class UserInfoValidator(BaseValidator):
+    def validate(self):
+        self.validate_func('char', 'openid', self.validate_data)

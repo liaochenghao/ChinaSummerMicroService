@@ -28,5 +28,8 @@ class RedisClient:
         self.redis_client.set(key, value, default_valid_time)
         return
 
+    def delete(self, key):
+        self.redis_client.delete(key)
+        return
 
 redis_client = RedisClient()
