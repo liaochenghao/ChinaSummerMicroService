@@ -2,7 +2,7 @@
 from config.common import *
 import pymysql
 
-RUN_MODE = 'console'
+RUN_MODE = 'online'
 
 MYSQL_CONFIG = {
     'host': '47.92.115.126',
