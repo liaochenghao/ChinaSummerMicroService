@@ -4,15 +4,15 @@ import pymysql
 
 RUN_MODE = 'console'
 
-MYSQL_CONFIG = {
-    'host': '42.51.8.152',
-    'port': 3306,
-    'db': 'stu_system',
-    'user': 'root',
-    'password': 'qwe896275756',
-    'cursorclass': pymysql.cursors.DictCursor,
-    'charset': 'utf8'
-}
+# MYSQL_CONFIG = {
+#     'host': '42.51.8.152',
+#     'port': 3306,
+#     'db': 'stu_system',
+#     'user': 'root',
+#     'password': 'qwe896275756',
+#     'cursorclass': pymysql.cursors.DictCursor,
+#     'charset': 'utf8'
+# }
 
 
 REDIS_CONFIG = {

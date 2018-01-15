@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
+mysql连接池
 """
 
 import pymysql
@@ -31,16 +32,6 @@ class Mysql:
         self._conn = self.__getConn()
         self._cursor = self._conn.cursor()
 
-    # @property
-    # def _conn(self):
-    #     # 数据库构造函数，从连接池中取出连接，并生成操作游标
-    #     return self.__getConn()
-    #
-    # @property
-    # def _cursor(self):
-    #     return self._conn.cursor()
-
-    # @staticmethod
     def __getConn(self):
         """
         @summary: 静态方法，从连接池中取出连接
@@ -112,7 +103,7 @@ class Mysql:
         @return: insertId 受影响的行数
         """
         self._cursor.execute(sql)
-        return self.__getInsertId()
+        return self._getInsertId()
 
     async def insertMany(self, sql):
         """
@@ -123,20 +114,13 @@ class Mysql:
         count = self._cursor.executemany(sql)
         return count
 
-    async def __getInsertId(self):
+    def _getInsertId(self):
         """
         获取当前连接最后一次插入操作生成的id,如果没有则为０
         """
         self._cursor.execute("SELECT @@IDENTITY AS id")
         result = self._cursor.fetchall()
         return result[0]['id']
-
-    async def __query(self, sql, param=None):
-        if param is None:
-            count = self._cursor.execute(sql)
-        else:
-            count = self._cursor.execute(sql, param)
-        return count
 
     async def update(self, sql, param=None):
         """

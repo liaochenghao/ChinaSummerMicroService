@@ -38,7 +38,7 @@ class StuSystemAuthorize:
                     valid_ticket = True
                     user_id = ticket['user_id']
                     err_msg = None
-                    redis_client.set_instance(key=ticket, value=user_id)
+                    redis_client.set_instance(key=valid_ticket, value=user_id)
                 else:
                     valid_ticket = False
                     user_id = None
