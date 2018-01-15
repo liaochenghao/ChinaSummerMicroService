@@ -104,6 +104,7 @@ class Mysql:
         @return: insertId 受影响的行数
         """
         self._cursor.execute(sql)
+        self._conn.commit()
         return self.__getInsertId()
 
     async def insertMany(self, sql):
@@ -113,6 +114,7 @@ class Mysql:
         @return: count 受影响的行数
         """
         count = self._cursor.executemany(sql)
+        self._conn.commit()
         return count
 
     async def __getInsertId(self):
@@ -123,13 +125,6 @@ class Mysql:
         result = self._cursor.fetchall()
         return result[0]['id']
 
-    async def __query(self, sql, param=None):
-        if param is None:
-            count = self._cursor.execute(sql)
-        else:
-            count = self._cursor.execute(sql, param)
-        return count
-
     async def update(self, sql, param=None):
         """
         @summary: 更新数据表记录
@@ -137,7 +132,9 @@ class Mysql:
         @param param: 要更新的  值 tuple/list
         @return: count 受影响的行数
         """
-        return self._cursor.execute(sql, param)
+        n = self._cursor.execute(sql, param)
+        self._conn.commit()
+        return n
 
     async def delete(self, sql, param=None):
         """
@@ -146,7 +143,9 @@ class Mysql:
         @param param: 要删除的条件 值 tuple/list
         @return: count 受影响的行数
         """
-        return self._cursor.execute(sql, param)
+        n = self._cursor.execute(sql, param)
+        self._conn.commit()
+        return n
 
     async def begin(self):
         """

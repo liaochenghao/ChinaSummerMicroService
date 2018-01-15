@@ -62,7 +62,6 @@ class StuSystemAuthorize:
         else:
             pass
         await mysql.insertOne(sql)
-        await mysql.end()
         redis_client.set_instance(ticket, user_id)
         return {'ticket': ticket}
 
@@ -78,5 +77,4 @@ class StuSystemAuthorize:
             """ % ticket
         redis_client.delete(ticket)
         await mysql.delete(sql)
-        await mysql.end()
         return
