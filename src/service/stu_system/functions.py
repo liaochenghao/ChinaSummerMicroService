@@ -66,8 +66,13 @@ class StuSystemAuthorize:
 
     @staticmethod
     async def delete_ticket(ticket, server_type='stu_system'):
-        sql = """
-            delete from ticket where ticket="%s"    
-        """ % ticket
+        if server_type == 'stu_system':
+            sql = """
+                delete from ticket where ticket="%s"    
+            """ % ticket
+        elif server_type == 'ugc_system':
+            sql = """
+                delete from smart_programs.authentication_ticket where ticket="%s"
+            """ % ticket
         await mysql.delete(sql)
         return

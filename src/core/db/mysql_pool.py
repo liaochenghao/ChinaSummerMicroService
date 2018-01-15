@@ -46,9 +46,10 @@ class Mysql:
         @summary: 静态方法，从连接池中取出连接
         @return MySQLdb.connection
         """
-        self.__pool = PooledDB(creator=pymysql, mincached=1, maxcached=20,
-                               host=self.host, port=self.port, user=self.user, passwd=self.password,
-                               db=self.db, use_unicode=False, charset=self.charset, cursorclass=DictCursor)
+        if not self.__pool:
+            self.__pool = PooledDB(creator=pymysql, mincached=1, maxcached=20,
+                                   host=self.host, port=self.port, user=self.user, passwd=self.password,
+                                   db=self.db, use_unicode=False, charset=self.charset, cursorclass=DictCursor)
         return self.__pool.connection()
 
     async def getAll(self, sql, param=None):
@@ -130,7 +131,7 @@ class Mysql:
         result = self._cursor.fetchall()
         return result[0]['id']
 
-    def __query(self, sql, param=None):
+    async def __query(self, sql, param=None):
         if param is None:
             count = self._cursor.execute(sql)
         else:
@@ -144,7 +145,7 @@ class Mysql:
         @param param: 要更新的  值 tuple/list
         @return: count 受影响的行数
         """
-        return self.__query(sql, param)
+        return self._cursor.execute(sql, param)
 
     async def delete(self, sql, param=None):
         """
@@ -153,7 +154,7 @@ class Mysql:
         @param param: 要删除的条件 值 tuple/list
         @return: count 受影响的行数
         """
-        return self.__query(sql, param)
+        return self._cursor.execute(sql, param)
 
     async def begin(self):
         """
