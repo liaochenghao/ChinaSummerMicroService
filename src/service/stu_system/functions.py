@@ -38,7 +38,7 @@ class StuSystemAuthorize:
                     valid_ticket = True
                     user_id = ticket['user_id']
                     err_msg = None
-                    redis_client.set_instance(key=valid_ticket, value=user_id)
+                    redis_client.set_instance(key=ticket['ticket'], value=user_id)
                 else:
                     valid_ticket = False
                     user_id = None
@@ -62,6 +62,7 @@ class StuSystemAuthorize:
         else:
             pass
         await mysql.insertOne(sql)
+        redis_client.set_instance(ticket, user_id)
         return {'ticket': ticket}
 
     @staticmethod
@@ -74,5 +75,6 @@ class StuSystemAuthorize:
             sql = """
                 delete from smart_programs.authentication_ticket where ticket="%s"
             """ % ticket
+        redis_client.delete(ticket)
         await mysql.delete(sql)
         return
