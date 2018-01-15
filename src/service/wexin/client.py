@@ -11,11 +11,11 @@ class WeiXinClient:
         self.APP_ID = WX_CONFIG['APP_ID']
         self.APP_SECRET = WX_CONFIG['APP_SECRET']
 
-    def get(self, url, params):
+    async def get(self, url, params):
         res = requests.get(url, params).json()
         return res
 
-    def post(self, url, json_data):
+    async def post(self, url, json_data):
         res = requests.post(url, json=json_data).json()
         return res
 
@@ -35,7 +35,7 @@ class WeiXinClient:
         redis_client.set_instance('server_center_access_token', res_data['access_token'], default_valid_time=(2*60*60 - 100))
         return res_data['access_token']
 
-    def send_text_message(self, openid, content, access_token=None):
+    async def send_text_message(self, openid, content, access_token=None):
         """发送文本消息"""
         url = "https://api.weixin.qq.com/cgi-bin/message/custom/send"
         if not access_token:
@@ -50,10 +50,10 @@ class WeiXinClient:
             'Postman-Token': "3a32082a-0052-5591-5a7e-bf815defb396"
         }
 
-        response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
+        response = await requests.request("POST", url, data=payload, headers=headers, params=querystring)
         return response.json()
 
-    def template_send(self, openid, template_id, url, access_token=None, **kwargs):
+    async def template_send(self, openid, template_id, url, access_token=None, **kwargs):
         """
         发送模板消息
         """
@@ -76,10 +76,10 @@ class WeiXinClient:
         }
         base_url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s' % access_token
 
-        res = self.post(url=base_url, json_data=post_data)
+        res = await self.post(url=base_url, json_data=post_data)
         return res
 
-    def code_authorize(self, code):
+    async def code_authorize(self, code):
         """用code获取认证"""
         url = 'https://api.weixin.qq.com/sns/oauth2/access_token/'
         params = {
@@ -88,30 +88,30 @@ class WeiXinClient:
             'code': code,
             'grant_type': 'authorization_code'
         }
-        res = self.get(url, params)
+        res = await self.get(url, params)
         return res
 
-    def get_user_info(self, openid, access_token=None):
+    async def get_user_info(self, openid, access_token=None):
         """
         通过openid获取基础用户信息
         """
         if not access_token:
             access_token = self.get_valid_access_token
         url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
-        res = self.get(url, params={})
+        res = await self.get(url, params={})
         return res
 
-    def get_web_user_info(self, openid, access_token=None):
+    async def get_web_user_info(self, openid, access_token=None):
         """
         通过openid获取网页授权的用户信息
         """
         if not access_token:
             access_token = self.get_valid_access_token
         url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
-        res = self.get(url, params={})
+        res = await self.get(url, params={})
         return res
 
-    def get_temporary_qr_code(self, action_name, scene_id, expired_seconds=7*24*60*60, access_token=None):
+    async def get_temporary_qr_code(self, action_name, scene_id, expired_seconds=7*24*60*60, access_token=None):
         """获取临时二维码"""
         if not access_token:
             access_token = self.get_valid_access_token
@@ -128,11 +128,11 @@ class WeiXinClient:
                 "scene": scene_data
             }
         }
-        res = self.post(url=url, json_data=json_data)
+        res = await self.post(url=url, json_data=json_data)
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
-    def get_forever_qr_code(self, action_name, scene_id, access_token):
+    async def get_forever_qr_code(self, action_name, scene_id, access_token):
         """获取永久二维码"""
         if not access_token:
             access_token = self.get_valid_access_token
@@ -147,7 +147,7 @@ class WeiXinClient:
                 "scene": scene_data
             }
         }
-        res = self.post(url=url, json_data=json_data)
+        res = await self.post(url=url, json_data=json_data)
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 

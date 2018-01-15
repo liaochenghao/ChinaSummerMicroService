@@ -29,18 +29,18 @@ def initMySQL(host='127.0.0.1', port=3306, user='root', password='', db='mysql',
     logger.info('create mysql connection pool.')
 
 
-def exec_cmd(sql):
+async def exec_cmd(sql):
     """ 执行mysql命令
     @param sql sql命令
     """
     sql = sql.replace('\t', ' ').replace('\n', ' ')
     logger.debug('sql:', sql)
-    cursor = CONN_POOL.execute(sql)
+    cursor = await CONN_POOL.execute(sql)
     result = cursor.fetchall()
     return result
 
 
-def my_custom_sql(query, is_query=True):
+async def my_custom_sql(query, is_query=True):
     import pymysql
     conn = pymysql.connect(**MYSQL_CONFIG)
     data = {}
