@@ -3,9 +3,8 @@ import datetime
 import random
 import string
 
-from core.db.mysql import my_custom_sql
-# from core.db.mysql import exec_cmd as my_custom_sql
 from core.db.redis_server import redis_client
+from core.db.mysql_pool import mysql
 
 
 class StuSystemAuthorize:
@@ -28,13 +27,13 @@ class StuSystemAuthorize:
                 """ % ticket
             else:
                 pass
-            res_ticket = await my_custom_sql(sql)
+            res_ticket = await mysql.getOne(sql)
             if not res_ticket:
                 valid_ticket = False
                 user_id = None
                 err_msg = 'ticket不存在'
             else:
-                ticket = res_ticket[0]
+                ticket = res_ticket
                 if ticket['expired_time'] > datetime.datetime.now():
                     valid_ticket = True
                     user_id = ticket['user_id']
@@ -62,7 +61,7 @@ class StuSystemAuthorize:
             """ % (user_id, str(now), str(expired_time), ticket)
         else:
             pass
-        await my_custom_sql(sql, is_query=False)
+        await mysql.insertOne(sql)
         return {'ticket': ticket}
 
     @staticmethod
@@ -70,5 +69,5 @@ class StuSystemAuthorize:
         sql = """
             delete from ticket where ticket="%s"    
         """ % ticket
-        await my_custom_sql(sql, is_query=False)
+        await mysql.delete(sql)
         return

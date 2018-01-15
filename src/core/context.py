@@ -56,9 +56,7 @@ class TornadoContext(object):
 
         self._init_logger()
         self._print_configures()
-        self._init_db_instance()
         self._init_uri_routes()
-        # self._do_heartbeat()
 
     def _init_logger(self):
         """ 初始化日志
@@ -91,17 +89,3 @@ class TornadoContext(object):
         handlers = route.make_routes(self.handler_pathes)
         self.handlers = handlers
         logger.info('init uri routes done <<<', caller=self)
-
-    def _init_db_instance(self):
-        """ 初始化数据库对象
-        """
-        logger.info('init db instance start >>>', caller=self)
-        if self.mysql_config:
-            from core.db.mysql import initMySQL
-            logger.info('mysql config:', self.mysql_config, caller=self)
-            initMySQL(**self.mysql_config)
-        # if self.mongo_config:
-        #     from tbag.core.db.mongo import initMongodb
-        #     logger.info('mongodb config:', self.mongo_config, caller=self)
-        #     initMongodb(**self.mongo_config)
-        logger.info('init db instance done <<<', caller=self)
