@@ -89,6 +89,7 @@ class WeiXinClient:
             'grant_type': 'authorization_code'
         }
         res = await self.get(url, params)
+        print(res)
         return res
 
     async def get_user_info(self, openid, access_token=None):
