@@ -13,10 +13,14 @@ class WeiXinClient:
 
     async def get(self, url, params):
         res = requests.get(url, params).json()
+        if res.get('errcode', 0) != 0:
+            redis_client.delete('server_center_access_token')
         return res
 
     async def post(self, url, json_data):
         res = requests.post(url, json=json_data).json()
+        if res.get('errcode', 0) != 0:
+            redis_client.delete('server_center_access_token')
         return res
 
     @property
@@ -24,6 +28,7 @@ class WeiXinClient:
         cached_access_token = redis_client.get_instance('server_center_access_token')
         if not cached_access_token:
             cached_access_token = self.get_grant_token()
+            redis_client.set_instance('server_center_access_token', cached_access_token)
         return cached_access_token
 
     def get_grant_token(self):
