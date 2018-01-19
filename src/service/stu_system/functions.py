@@ -1,8 +1,6 @@
 # coding: utf-8
 import datetime
-import random
-import string
-
+from secrets import token_hex
 from core.db.redis_server import redis_client
 from core.db.mysql_pool import mysql
 
@@ -49,8 +47,7 @@ class StuSystemAuthorize:
     async def create_ticket(user_id, server_type='stu_system'):
         now = datetime.datetime.now()
         expired_time = datetime.datetime.now() + datetime.timedelta(days=1)
-        ticket = 'TK-'
-        ticket += ''.join(random.sample(string.digits + string.ascii_letters, 20))
+        ticket = token_hex(32)
         if server_type == 'stu_system':
             sql = """
                 insert into ticket (user_id, create_time, expired_time, ticket) values(%d, "%s", "%s", "%s")        
