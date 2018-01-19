@@ -1,3 +1,6 @@
-tornado_simple_route==1.2
+tornado_route_simple==0.2.0
+requests==2.18.4
+redis==2.10.6
+pymysql==0.8.0
 tornado==4.5.2
 DBUtils==1.2
