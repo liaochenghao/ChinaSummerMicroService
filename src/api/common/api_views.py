@@ -11,27 +11,24 @@ class CommonAuthorizeHandler(WebHandler):
 
     async def get(self, *args, **kwargs):
         ticket = self.get_param('ticket')
-        server_type = self.get_param('server_type', 'stu_system')
-        validator = TicketAuthorizeValidator({'ticket': ticket}, server_type)
+        validator = TicketAuthorizeValidator({'ticket': ticket})
         validated_data = validator.validate()
         ticket = validated_data['ticket']
-        res = await StuSystemAuthorize.validate_ticket(ticket, server_type=server_type)
+        res = await StuSystemAuthorize.validate_ticket(ticket)
         self.do_success(res)
 
     async def post(self, *args, **kwargs):
         data = self.data
-        server_type = self.get_param('server_type', 'stu_system')
         validator = UserAuthorizeValidator(data)
         validated_data = validator.validate()
-        res = await StuSystemAuthorize.create_ticket(validated_data['user_id'], server_type)
+        res = await StuSystemAuthorize.create_ticket(validated_data['user_id'])
         self.do_success(res)
 
     async def delete(self, *args, **kwargs):
         ticket = self.get_param('ticket')
-        server_type = self.get_param('server_type', 'stu_system')
-        validator = TicketAuthorizeValidator({'ticket': ticket}, server_type)
+        validator = TicketAuthorizeValidator({'ticket': ticket})
         validated_data = validator.validate()
         ticket = validated_data['ticket']
-        await StuSystemAuthorize.delete_ticket(ticket, server_type)
+        await StuSystemAuthorize.delete_ticket(ticket)
         self.do_success()
 
