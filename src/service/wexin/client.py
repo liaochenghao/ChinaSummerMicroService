@@ -24,14 +24,14 @@ class WeiXinClient:
         return res
 
     @property
-    def get_valid_access_token(self):
+    async def get_valid_access_token(self):
         cached_access_token = redis_client.get_instance('server_center_access_token')
         if not cached_access_token:
             cached_access_token = self.get_grant_token()
             redis_client.set_instance('server_center_access_token', cached_access_token)
         return cached_access_token
 
-    def get_grant_token(self):
+    async def get_grant_token(self):
         """获取微信access_token"""
         url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (
             self.APP_ID, self.APP_SECRET)
