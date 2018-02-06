@@ -13,7 +13,7 @@ class WeXinServerAccessToken(WebHandler):
     """
 
     async def get(self, *args, **kwargs):
-        access_token = await wx_client.get_valid_access_token
+        access_token = wx_client.get_valid_access_token
         self.do_success({'access_token': access_token})
 
 
