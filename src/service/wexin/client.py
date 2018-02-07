@@ -82,12 +82,14 @@ class WeiXinClient:
         res = await self.post(url=base_url, json_data=post_data)
         return res
 
-    async def code_authorize(self, code):
+    async def code_authorize(self, code, app_id=None, app_secret=None):
         """用code获取认证"""
         url = 'https://api.weixin.qq.com/sns/oauth2/access_token'
+        app_id = app_id if app_id else self.APP_ID
+        app_secret = app_secret if app_secret else self.APP_SECRET
         params = {
-            'appid': self.APP_ID,
-            'secret': self.APP_SECRET,
+            'appid': app_id,
+            'secret': app_secret,
             'code': code,
             'grant_type': 'authorization_code'
         }

@@ -59,7 +59,9 @@ class WeiXinServerCodeAuthorize(WebHandler):
     """通过code获取网页授权access_token"""
     async def get(self, *args, **kwargs):
         code = self.get_param('code')
-        res = await wx_client.code_authorize(code=code)
+        app_id = self.get_param('app_id')
+        app_secret = self.get_param('app_secret')
+        res = await wx_client.code_authorize(code=code, app_id=app_id, app_secret=app_secret)
         self.do_success(res)
 
 
