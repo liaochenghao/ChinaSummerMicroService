@@ -32,4 +32,5 @@ class RedisClient:
         self.redis_client.delete(key)
         return
 
+
 redis_client = RedisClient()
