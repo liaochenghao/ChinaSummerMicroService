@@ -113,8 +113,9 @@ class WeiXinClient:
         if not access_token:
             access_token = self.get_valid_access_token()
         url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
-        res = await self.get(url, params={})
-        return res
+        response = requests.get(url, params={})
+        response.encoding = 'utf-8'
+        return response.json()
 
     async def get_temporary_qr_code(self, action_name, scene_id, expired_seconds=7*24*60*60, access_token=None):
         """获取临时二维码"""
