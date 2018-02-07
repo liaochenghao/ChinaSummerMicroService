@@ -36,6 +36,9 @@
 
 
 #### 3.服务中心微信公众号接口
+```
+以下接口如果不传入access_token，则默认调用学生系统所在微信公众号的access_token
+```
 - [获取access_token](docs/weixin/get_access_token.md)
 - [发送文本消息](docs/weixin/send_text_message.md)
 - [发送模板消息](docs/weixin/send_template_message.md)

@@ -7,7 +7,13 @@
 
 **请求参数**:
 ```
-    无
+    {
+        "app_id": str   选填
+        "app_secret": str   选填
+    }
+```
+    如果未传入app_id,app_secret则默认调用学生系统所在的微信公众号的access_token
+```
 ```
 
 **成功返回**：
