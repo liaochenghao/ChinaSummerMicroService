@@ -13,38 +13,36 @@ class WeiXinClient:
 
     async def get(self, url, params):
         res = requests.get(url, params).json()
-        if res.get('errcode', 0) != 0:
-            redis_client.delete('server_center_access_token')
         return res
 
     async def post(self, url, json_data):
         res = requests.post(url, json=json_data).json()
-        if res.get('errcode', 0) != 0:
-            redis_client.delete('server_center_access_token')
         return res
 
-    @property
-    async def get_valid_access_token(self):
-        cached_access_token = redis_client.get_instance('server_center_access_token')
+    async def get_valid_access_token(self, app_id=None, app_secret=None):
+        cached_token_app_id = app_id if app_id else self.APP_ID
+        cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
         if not cached_access_token:
-            cached_access_token = await self.get_grant_token()
-            redis_client.set_instance('server_center_access_token', cached_access_token)
+            cached_access_token = await self.get_grant_token(app_id, app_secret)
+            redis_client.set_instance('%s_access_token' % cached_token_app_id, cached_access_token)
         return cached_access_token
 
-    async def get_grant_token(self):
+    async def get_grant_token(self, app_id, app_secret):
         """获取微信access_token"""
+        app_id = app_id if app_id else self.APP_ID
+        app_secret = app_secret if app_secret else self.APP_SECRET
         url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (
-            self.APP_ID, self.APP_SECRET)
+            app_id, app_secret)
         res = requests.get(url)
         res_data = res.json()
-        redis_client.set_instance('server_center_access_token', res_data['access_token'], default_valid_time=(2*60*60 - 100))
+        redis_client.set_instance('%s_access_token' % app_id, res_data['access_token'], default_valid_time=(2*60*60 - 100))
         return res_data['access_token']
 
     async def send_text_message(self, openid, content, access_token=None):
         """发送文本消息"""
         url = "https://api.weixin.qq.com/cgi-bin/message/custom/send"
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
         querystring = {
             "access_token": access_token}
 
@@ -65,7 +63,7 @@ class WeiXinClient:
         data = {}
 
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
 
         for key, value in kwargs.items():
             # 转换成微信要求格式
@@ -101,7 +99,7 @@ class WeiXinClient:
         通过openid获取基础用户信息
         """
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
         url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
         res = await self.get(url, params={})
         return res
@@ -111,7 +109,7 @@ class WeiXinClient:
         通过openid获取网页授权的用户信息
         """
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
         url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN" % (access_token, openid)
         res = await self.get(url, params={})
         return res
@@ -119,7 +117,7 @@ class WeiXinClient:
     async def get_temporary_qr_code(self, action_name, scene_id, expired_seconds=7*24*60*60, access_token=None):
         """获取临时二维码"""
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
 
         if action_name == 'QR_SCENE':
             scene_data = {'scene_id': scene_id}
@@ -140,7 +138,7 @@ class WeiXinClient:
     async def get_forever_qr_code(self, action_name, scene_id, access_token):
         """获取永久二维码"""
         if not access_token:
-            access_token = self.get_valid_access_token
+            access_token = self.get_valid_access_token()
         if action_name == 'QR_LIMIT_SCENE':
             scene_data = {'scene_id': scene_id}
         else:

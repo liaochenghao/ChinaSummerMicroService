@@ -13,7 +13,9 @@ class WeXinServerAccessToken(WebHandler):
     """
 
     async def get(self, *args, **kwargs):
-        access_token = await wx_client.get_valid_access_token
+        app_id = self.get_param('app_id')
+        app_secret = self.get_param('app_secret')
+        access_token = await wx_client.get_valid_access_token(app_id, app_secret)
         self.do_success({'access_token': access_token})
 
 
