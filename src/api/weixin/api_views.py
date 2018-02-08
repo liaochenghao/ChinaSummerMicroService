@@ -54,6 +54,20 @@ class WeiXinServerTemplateMessage(WebHandler):
         self.do_success(res)
 
 
+@route(r'/api/weixin/service_center/send_img_content_message/$')
+class WeixinServerImgContentMessage(WebHandler):
+    """
+    发送图文消息
+    """
+    async def post(self, *args, **kwargs):
+        data = self.data
+        openid = data.get('openid')
+        access_token = data.get('access_token')
+        articles = data.get('articles')
+        res = await wx_client.img_content_send(openid=openid, access_token=access_token, articles=articles)
+        self.do_success(res)
+
+
 @route(r'/api/weixin/service_center/code_authorize/$')
 class WeiXinServerCodeAuthorize(WebHandler):
     """通过code获取网页授权access_token"""

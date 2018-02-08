@@ -157,5 +157,26 @@ class WeiXinClient:
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
+    async def img_content_send(self, access_token, openid, articles):
+        """
+        发送图文消息
+        :param access_token:
+        :param openid:
+        :param articles:  list 发送文本列表
+        :return:
+        """
+        if not access_token:
+            access_token = self.get_valid_access_token()
+        url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" % access_token
+        data = {
+            "touser": openid,
+            "msgtype": "news",
+            "news": {
+                "articles": articles
+            }
+        }
+        res = await self.post(url=url, json_data=data)
+        return res
+
 
 wx_client = WeiXinClient()
