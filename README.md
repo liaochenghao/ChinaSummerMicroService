@@ -48,3 +48,4 @@
 - [获取基础用户信息](docs/weixin/get_user_info.md)
 - [生成临时二维码](docs/weixin/temporary_qr_code.md)
 - [生成永久二维码](docs/weixin/forever_qr_code.md)
+- [发送图文消息](docs/weixin/img_content_message.md)
