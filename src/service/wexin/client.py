@@ -1,4 +1,6 @@
 # coding: utf-8
+import json
+
 import requests
 from config import WX_CONFIG
 
@@ -175,7 +177,7 @@ class WeiXinClient:
                 "articles": articles
             }
         }
-        res = await self.post(url=url, json_data=data)
+        res = requests.post(url=url, data=json.dumps(data, ensure_ascii=False).encode('utf-8')).json()
         return res
 
 
