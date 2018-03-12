@@ -5,11 +5,11 @@ import pymysql
 RUN_MODE = 'console'
 
 MYSQL_CONFIG = {
-    'host': '42.51.8.152',
+    'host': '47.92.115.126',
     'port': 3306,
     'db': 'stu_system',
     'user': 'root',
-    'password': 'qwe896275756',
+    'password': 'svLE26eg',
     'cursorclass': pymysql.cursors.DictCursor,
     'charset': 'utf8'
 }
