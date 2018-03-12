@@ -1,13 +1,15 @@
 # coding: utf-8
 from secrets import token_hex
 from core.db.redis_server import redis_client
+from utils import log as logger
 
 
 class StuSystemAuthorize:
-
     @staticmethod
     async def validate_ticket(ticket):
+        logger.info('Student System Validate Ticket')
         cached_user_id = redis_client.get_instance(ticket)
+        logger.info('Get Cached User Id: %s' % cached_user_id)
         if cached_user_id:
             valid_ticket = True
             user_id = cached_user_id
