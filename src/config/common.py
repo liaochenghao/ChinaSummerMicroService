@@ -7,10 +7,10 @@ RUN_MODE = 'online'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# 署校联盟服务中心微信公众号配置
+# 北美留学生社区微信公众号配置
 WX_CONFIG = {
-    'APP_ID': 'wx6cdbbafe0da85703',
-    'APP_SECRET': '73c8e307c09027162840705e7496ed32'
+    'APP_ID': 'wxddf82dc1f4c6b5e0',
+    'APP_SECRET': '10410cf627a6a114d9bc6ed466bed242'
 }
 
 # 日志文件

@@ -2,7 +2,7 @@
 import redis
 from config import REDIS_CONFIG
 
-redis_valid_time = 2*60*60
+redis_valid_time = 1*60*60
 
 
 class RedisClient:
@@ -31,5 +31,6 @@ class RedisClient:
     def delete(self, key):
         self.redis_client.delete(key)
         return
+
 
 redis_client = RedisClient()

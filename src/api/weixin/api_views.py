@@ -13,7 +13,9 @@ class WeXinServerAccessToken(WebHandler):
     """
 
     async def get(self, *args, **kwargs):
-        access_token = await wx_client.get_valid_access_token
+        app_id = self.get_param('app_id')
+        app_secret = self.get_param('app_secret')
+        access_token = await wx_client.get_valid_access_token(app_id, app_secret)
         self.do_success({'access_token': access_token})
 
 
@@ -52,12 +54,28 @@ class WeiXinServerTemplateMessage(WebHandler):
         self.do_success(res)
 
 
+@route(r'/api/weixin/service_center/send_img_content_message/$')
+class WeixinServerImgContentMessage(WebHandler):
+    """
+    发送图文消息
+    """
+    async def post(self, *args, **kwargs):
+        data = self.data
+        openid = data.get('openid')
+        access_token = data.get('access_token')
+        articles = data.get('articles')
+        res = await wx_client.img_content_send(openid=openid, access_token=access_token, articles=articles)
+        self.do_success(res)
+
+
 @route(r'/api/weixin/service_center/code_authorize/$')
 class WeiXinServerCodeAuthorize(WebHandler):
     """通过code获取网页授权access_token"""
     async def get(self, *args, **kwargs):
         code = self.get_param('code')
-        res = await wx_client.code_authorize(code=code)
+        app_id = self.get_param('app_id')
+        app_secret = self.get_param('app_secret')
+        res = await wx_client.code_authorize(code=code, app_id=app_id, app_secret=app_secret)
         self.do_success(res)
 
 
