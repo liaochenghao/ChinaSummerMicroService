@@ -3,7 +3,7 @@ import json
 
 import requests
 from config import WX_CONFIG
-
+from utils import log as logger
 from core.db.redis_server import redis_client
 
 
@@ -22,12 +22,12 @@ class WeiXinClient:
 
     async def get_valid_access_token(self, app_id=None, app_secret=None):
         cached_token_app_id = app_id if app_id else self.APP_ID
-        # cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
+        cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
         cached_access_token = None
         if not cached_access_token:
-            print('mmmmmmmmmmmmmmmmmmmmm')
+            logger.info('mmmmmmmmmmmmmmmmmmmmm')
             cached_access_token = await self.get_grant_token(app_id, app_secret)
-            print('mmmmmmmmmmmmmmmmmmmmm' + str(cached_access_token))
+            logger.info('mmmmmmmmmmmmmmmmmmmmm' + str(cached_access_token))
             redis_client.set_instance('%s_access_token' % cached_token_app_id, cached_access_token)
         return cached_access_token
 
@@ -162,9 +162,7 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
-        print('22222222222222222222222 ', access_token)
-        print('lllllllllllllllllllllllll ', res)
-
+        logger.info('lllllllllllllllllllllllll ', res)
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
