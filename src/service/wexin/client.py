@@ -145,7 +145,7 @@ class WeiXinClient:
     async def get_forever_qr_code(self, action_name, scene_id, access_token):
         """获取永久二维码"""
         if not access_token:
-            access_token = await self.get_valid_access_token()
+            access_token = self.get_valid_access_token()
         if action_name == 'QR_LIMIT_SCENE':
             scene_data = {'scene_id': scene_id}
         else:
