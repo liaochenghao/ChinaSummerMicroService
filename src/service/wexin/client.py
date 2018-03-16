@@ -25,6 +25,7 @@ class WeiXinClient:
         # cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
         cached_access_token = None
         if not cached_access_token:
+            print('mmmmmmmmmmmmmmmmmmmmm')
             cached_access_token = await self.get_grant_token(app_id, app_secret)
             print('mmmmmmmmmmmmmmmmmmmmm' + str(cached_access_token))
             redis_client.set_instance('%s_access_token' % cached_token_app_id, cached_access_token)
