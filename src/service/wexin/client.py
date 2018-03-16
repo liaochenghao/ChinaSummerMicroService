@@ -151,7 +151,6 @@ class WeiXinClient:
         """获取永久二维码"""
         if not access_token:
             access_token = self.get_valid_access_token()
-            print(':hhhhhhhhhhhhhhhhh:access_token %s' % str(access_token))
         if action_name == 'QR_LIMIT_SCENE':
             scene_data = {'scene_id': scene_id}
         else:
@@ -164,7 +163,7 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
-        print('lllllllllllllllllllllllll'+str(res))
+        print('lllllllllllllllllllllllll'+res)
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
