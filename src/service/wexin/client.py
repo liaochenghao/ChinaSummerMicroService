@@ -39,6 +39,7 @@ class WeiXinClient:
             app_id, app_secret)
         res = requests.get(url)
         res_data = res.json()
+        logger.info('99999999999999999999', res_data, res)
         redis_client.set_instance('%s_access_token' % app_id, res_data['access_token'],
                                   default_valid_time=(2 * 60 * 60 - 100))
         return res_data['access_token']
