@@ -163,7 +163,9 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
+        print('22222222222222222222222 ', access_token)
         print('lllllllllllllllllllllllll ', res)
+
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
