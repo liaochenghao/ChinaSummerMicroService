@@ -140,7 +140,6 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
-        print('********************************'+res.__str__())
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
@@ -160,6 +159,7 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
+        print('********************************' + res.__str__())
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
