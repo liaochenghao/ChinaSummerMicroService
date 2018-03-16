@@ -157,6 +157,7 @@ class WeiXinClient:
         }
         res = await self.post(url=url, json_data=json_data)
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
+        print('55555555555555555555555555555555'+str(res.__dict__))
         return res
 
     async def img_content_send(self, access_token, openid, articles):
