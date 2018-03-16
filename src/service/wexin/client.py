@@ -21,11 +21,9 @@ class WeiXinClient:
         return res
 
     async def get_valid_access_token(self, app_id=None, app_secret=None):
-        print('kkkkkkkkkkkkkkkkkkkkkkkkkk')
         cached_token_app_id = app_id if app_id else self.APP_ID
-        print('gggggggggggggggggggggggggg')
-        cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
-        print('ooooooooooooooooooooooo'+str(cached_access_token))
+        # cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
+        cached_access_token = None
         if not cached_access_token:
             cached_access_token = await self.get_grant_token(app_id, app_secret)
             print('mmmmmmmmmmmmmmmmmmmmm' + str(cached_access_token))
