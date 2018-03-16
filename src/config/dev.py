@@ -5,17 +5,17 @@ import pymysql
 RUN_MODE = 'console'
 
 MYSQL_CONFIG = {
-    'host': '47.92.115.126',
+    'host': '120.79.36.26',
     'port': 3306,
     'db': 'stu_system',
     'user': 'root',
-    'password': 'svLE26eg',
+    'password': '1q2w3e4r!Q',
     'cursorclass': pymysql.cursors.DictCursor,
     'charset': 'utf8'
 }
 
 
 REDIS_CONFIG = {
-    'host': '47.92.115.126',
+    'host': '120.79.36.26',
     'port': 6379
 }
