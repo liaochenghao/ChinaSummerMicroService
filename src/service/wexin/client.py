@@ -22,11 +22,12 @@ class WeiXinClient:
 
     async def get_valid_access_token(self, app_id=None, app_secret=None):
         cached_token_app_id = app_id if app_id else self.APP_ID
+        print('gggggggggggggggggggggggggg')
         cached_access_token = redis_client.get_instance('%s_access_token' % cached_token_app_id)
-        print('>>>>>>>>>>>>>>>>>>>>>>'+str(cached_access_token))
+        print('ooooooooooooooooooooooo'+str(cached_access_token))
         if not cached_access_token:
             cached_access_token = await self.get_grant_token(app_id, app_secret)
-            print('<<<<<<<<<<<<<<<<<<<' + str(cached_access_token))
+            print('mmmmmmmmmmmmmmmmmmmmm' + str(cached_access_token))
             redis_client.set_instance('%s_access_token' % cached_token_app_id, cached_access_token)
         return cached_access_token
 
@@ -147,7 +148,6 @@ class WeiXinClient:
 
     async def get_forever_qr_code(self, action_name, scene_id, access_token):
         """获取永久二维码"""
-        print('::::::::::::::::::::access_token %s' % str(access_token))
         if not access_token:
             print(':hhhhhhhhhhhhhhhhh:access_token %s' % str(access_token))
             access_token = self.get_valid_access_token()
