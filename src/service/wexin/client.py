@@ -140,6 +140,7 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
+        print('********************************'+res.__str__())
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
         return res
 
@@ -151,7 +152,6 @@ class WeiXinClient:
             scene_data = {'scene_id': scene_id}
         else:
             scene_data = {'scene_str': scene_id}
-        print('8888888888888888888888888888: %s' % access_token)
         url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s" % access_token
         json_data = {
             "action_name": action_name,
@@ -160,10 +160,7 @@ class WeiXinClient:
             }
         }
         res = await self.post(url=url, json_data=json_data)
-        print('77777777777777777777777777777777' + url + '| ' + str(json_data))
-        print('66666666666666666666666666666666' + str(res.__dict__))
         res['qr_img_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s' % res['ticket']
-        print('55555555555555555555555555555555' + str(res.__dict__))
         return res
 
     async def img_content_send(self, access_token, openid, articles):
