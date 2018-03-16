@@ -24,6 +24,7 @@ class WeXinServerTextMessage(WebHandler):
     """
     通过客服消息接口，给用户发送文本消息
     """
+
     async def post(self, *args, **kwargs):
         openid = self.data.get('openid')
         content = self.data.get('content')
@@ -40,6 +41,7 @@ class WeiXinServerTemplateMessage(WebHandler):
     """
     发送模板消息
     """
+
     async def post(self, *args, **kwargs):
         template_id = self.data.get('template_id')
         openid = self.data.get('openid')
@@ -59,6 +61,7 @@ class WeixinServerImgContentMessage(WebHandler):
     """
     发送图文消息
     """
+
     async def post(self, *args, **kwargs):
         data = self.data
         openid = data.get('openid')
@@ -71,6 +74,7 @@ class WeixinServerImgContentMessage(WebHandler):
 @route(r'/api/weixin/service_center/code_authorize/$')
 class WeiXinServerCodeAuthorize(WebHandler):
     """通过code获取网页授权access_token"""
+
     async def get(self, *args, **kwargs):
         code = self.get_param('code')
         app_id = self.get_param('app_id')
@@ -82,6 +86,7 @@ class WeiXinServerCodeAuthorize(WebHandler):
 @route(r'/api/weixin/service_center/get_web_user_info/$')
 class WeiXinServerWebUserInfo(WebHandler):
     """获取网页认证用户信息"""
+
     async def get(self, *args, **kwargs):
         openid = self.get_param('openid')
         access_token = self.get_param('access_token')
@@ -96,6 +101,7 @@ class WeiXinServerWebUserInfo(WebHandler):
 @route(r'/api/weixin/service_center/get_user_info/$')
 class WeiXinServerUserInfo(WebHandler):
     """获取基础认证用户信息"""
+
     async def get(self, *args, **kwargs):
         openid = self.get_param('openid')
         access_token = self.get_param('access_token')
@@ -110,10 +116,11 @@ class WeiXinServerUserInfo(WebHandler):
 @route(r'/api/weixin/service_center/temporary_qr_code/$')
 class WeiXinServerTemporaryQrCode(WebHandler):
     """获取临时二维码"""
+
     async def post(self, *args, **kwargs):
         action_name = self.data.get('action_name')
         scene_id = self.data.get('scene_id')
-        expired_seconds = self.get_param('expired_seconds', 7*24*60*60)
+        expired_seconds = self.get_param('expired_seconds', 7 * 24 * 60 * 60)
         access_token = self.data.get('access_token')
 
         validator = TemporaryQrCodeValidator({'action_name': action_name, 'expired_seconds': expired_seconds})
@@ -128,6 +135,7 @@ class WeiXinServerTemporaryQrCode(WebHandler):
 @route(r'/api/weixin/service_center/forever_qr_code/$')
 class WeiXinServerForeverQrCode(WebHandler):
     """获取永久二维码"""
+
     async def post(self, *args, **kwargs):
         action_name = self.data.get('action_name')
         scene_id = self.data.get('scene_id')
@@ -135,6 +143,7 @@ class WeiXinServerForeverQrCode(WebHandler):
 
         validator = ForeverQrCodeValidator({'action_name': action_name})
         validator.validate()
+        print('+++++++++++++++++++++++ %s %s %s ' % (action_name, scene_id, access_token))
         res = await wx_client.get_forever_qr_code(action_name=action_name,
                                                   scene_id=scene_id,
                                                   access_token=access_token)
