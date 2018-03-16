@@ -16,6 +16,6 @@ MYSQL_CONFIG = {
 
 
 REDIS_CONFIG = {
-    'host': '47.92.115.126',
+    'host': '127.0.0.1',
     'port': 6379
 }
