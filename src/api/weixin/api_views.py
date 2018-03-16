@@ -143,7 +143,6 @@ class WeiXinServerForeverQrCode(WebHandler):
 
         validator = ForeverQrCodeValidator({'action_name': action_name})
         validator.validate()
-        print('+++++++++++++++++++++++ %s %s %s ' % (action_name, scene_id, access_token))
         res = await wx_client.get_forever_qr_code(action_name=action_name,
                                                   scene_id=scene_id,
                                                   access_token=access_token)
