@@ -151,6 +151,7 @@ class WeiXinClient:
             scene_data = {'scene_id': scene_id}
         else:
             scene_data = {'scene_str': scene_id}
+        print('8888888888888888888888888888' + access_token)
         url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s" % access_token
         json_data = {
             "action_name": action_name,
