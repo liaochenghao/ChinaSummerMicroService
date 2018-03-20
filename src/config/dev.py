@@ -5,7 +5,7 @@ import pymysql
 RUN_MODE = 'console'
 
 MYSQL_CONFIG = {
-    'host': '120.79.36.26',
+    'host': '127.0.0.1',
     'port': 3306,
     'db': 'stu_system',
     'user': 'root',
