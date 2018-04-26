@@ -9,7 +9,7 @@ class RedisClient:
 
     @property
     def redis_client(self):
-        client = redis.Redis(host=REDIS_CONFIG['host'], port=REDIS_CONFIG['port'], password=REDIS_CONFIG['password'])
+        client = redis.Redis(host=REDIS_CONFIG['host'], port=REDIS_CONFIG['port'])
         return client
 
     def get_instance(self, key, delete_cache=False):
